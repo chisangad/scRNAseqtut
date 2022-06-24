@@ -5,26 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Running Environment | scRNA-seq data analysis</title>
-  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Running Environment | scRNA-seq data analysis" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   <meta name="github-repo" content="chisangad/scRNAseq" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 4 Running Environment | scRNA-seq data analysis" />
   
-  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   
 
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +31,6 @@
   
 <link rel="prev" href="prerequisites.html"/>
 <link rel="next" href="quantification-1.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -226,16 +224,15 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="running-environment" class="section level1" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Running Environment</h1>
-<div id="rstudio" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> RStudio</h2>
-<p>This is the recommended approach for running this protocol. An RStudio application (‘RStudio(2672)’) has been created under the ‘Analysis’ tab in the Remote Access Facility. After you log into it (using your email account name and password), change to the directory ‘/data/RawPrimary/Public’ (you can do this by choosing Session &gt; Set Working Directory &gt;Choose Directory and then using the ‘…’ to specify the directory you want to change to) and then
-you will find a folder called ‘Workshop_scRNAseq’ which includes all the materials included in this Workshop. You can make a copy of this folder and then start to run the protocol in your own folder.</p>
+<div id="running-environment" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Running Environment<a href="running-environment.html#running-environment" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="rstudio" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> RStudio<a href="running-environment.html#rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is the recommended approach for running this protocol. An RStudio application (‘RStudio(2672)’) has been created under the ‘Analysis’ tab in the Remote Access Facility. After you log into it (using your email account name and password), change to the directory ‘/data/RawPrimary/Public’ (you can do this by choosing Session &gt; Set Working Directory &gt;Choose Directory and then using the ‘…’ to specify the directory you want to change to) and then you will find a folder called ‘Workshop_scRNAseq’ which includes all the materials included in this Workshop. You can make a copy of this folder and then start to run the protocol in your own folder.</p>
 </div>
-<div id="setup" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> UNIX server + laptop</h2>
-<p>Run read mapping and counting on a UNIX server and then perform the rest of the analysis on your laptop. Refer to the document “How to Access Linux BioInformatics Analysis Platform.pdf” for how to access the Bioinformatics UNIX server. Once you logged in onto the server, you can issue the following commands to copy the Workshop data to a directory you create on the server and to launch R. You are then ready to run the protocol.</p>
+<div id="setup" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> UNIX server + laptop<a href="running-environment.html#setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Run read mapping and counting on a UNIX server and then perform the rest of the analysis on your laptop. Refer to the document “How to Access Linux Bioinformatics Analysis Platform.pdf” for how to access the Bioinformatics UNIX server. Once you logged in to the server, you can issue the following commands to copy the Workshop data to a directory you create on the server and to launch R. You are then ready to run the protocol.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="running-environment.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># connect AllStaffShare Drive to the server</span></span>
 <span id="cb2-2"><a href="running-environment.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">cifscreds</span> add svr-fs95</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="running-environment.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change directory to the Public directory</span></span>
@@ -251,7 +248,8 @@ you will find a folder called ‘Workshop_scRNAseq’ which includes all the mat
 <span id="cb7-2"><a href="running-environment.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R</span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="running-environment.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Start R environment</span></span>
 <span id="cb8-2"><a href="running-environment.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
-<p>Due to the complexity and resource requirements of scRNA-seq data analysis, the quantification step will be run on the server and the rest of the analysis can be run on your laptop.</p>
+<p>Due to the complexity and resource requirements of scRNA-seq data analysis, the quantification step will be run on the server and the rest of the analysis can be run on your laptop.
+</p>
 
 </div>
 </div>
@@ -303,7 +301,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["scRNA-seq tutorial.pdf", "scRNA-seq tutorial.epub"],
+"download": ["scRNAseqtutorial.pdf", "scRNAseqtutorial.epub"],
 "search": {
 "engine": "fuse",
 "options": null

@@ -5,26 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Quantification | scRNA-seq data analysis</title>
-  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Quantification | scRNA-seq data analysis" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   <meta name="github-repo" content="chisangad/scRNAseq" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 5 Quantification | scRNA-seq data analysis" />
   
-  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   
 
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +31,6 @@
   
 <link rel="prev" href="running-environment.html"/>
 <link rel="next" href="analysis-protocol.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -226,10 +224,10 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="quantification-1" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Quantification</h1>
-<div id="build-index-for-a-reference-genome" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Build index for a reference genome</h2>
+<div id="quantification-1" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Quantification<a href="quantification-1.html#quantification-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="build-index-for-a-reference-genome" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Build index for a reference genome<a href="quantification-1.html#build-index-for-a-reference-genome" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Start an R session using the terminal on the server</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="quantification-1.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R</span>
 <span id="cb9-2"><a href="quantification-1.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
@@ -240,13 +238,13 @@ div.csl-indent {
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="quantification-1.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">buildindex</span>(<span class="at">basename =</span> <span class="st">&quot;hg38_reference&quot;</span>, </span>
 <span id="cb12-2"><a href="quantification-1.html#cb12-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">reference =</span> <span class="st">&quot;GRCh38.primary_assembly.genome.fa.gz&quot;</span>)</span></code></pre></div>
 </div>
-<div id="counts" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Map and quantify single cell RNA-seq data</h2>
+<div id="counts" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Map and quantify single cell RNA-seq data<a href="quantification-1.html#counts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The raw scRNA-seq data is processed and UMI counts generated using <em>cellCounts</em>. It takes as input scRNA-seq reads generated by the 10X platform, maps them to the reference genome and then produces UMI (Unique Molecular Identifier) counts for each gene in each cell. It uses the <em>align</em> read mapping function and the <em>featureCounts</em> quantification function, both part of the <strong>Rsubread</strong> package.</p>
 <p>For more information on how to use <em>cellCounts</em>, type the command <code>?cellCounts</code> in the R console.</p>
 <p><strong>Create sample-related information</strong></p>
 <p>Before using cellCounts, we need to generate a data frame containing sample information which we then pass to cellCounts via the sample parameter.</p>
-<p>Note that for this workshop, <em>the input format for our dataset is FASTQ</em> and as such we create a data frame that consists of 3 columns ‘BarcodeUMIFile,’ ‘ReadFile’ and ‘SampleName.’ However, if the input format were BCL (ie. input.mode=“BCL”), we would have created a dataframe that included the location where the read data are stored, flowcell lanes used for sequencing, sample names and names of index sets used for indexing samples.</p>
+<p>Note that for this workshop, <em>the input format for our dataset is FASTQ</em> and as such we create a data frame that consists of 3 columns ‘BarcodeUMIFile’, ‘ReadFile’ and ‘SampleName’. However, if the input format were BCL (ie. input.mode=“BCL”), we would have created a dataframe that included the location where the read data are stored, flowcell lanes used for sequencing, sample names and names of index sets used for indexing samples.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="quantification-1.html#cb13-1" aria-hidden="true" tabindex="-1"></a>umiread <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&quot;FQs&quot;</span>,</span>
 <span id="cb13-2"><a href="quantification-1.html#cb13-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pattern =</span> <span class="st">&quot;^.*_1.fastq.gz&quot;</span>,</span>
 <span id="cb13-3"><a href="quantification-1.html#cb13-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">full.names =</span> T)</span>
@@ -260,11 +258,11 @@ div.csl-indent {
 <span id="cb13-11"><a href="quantification-1.html#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> F</span>
 <span id="cb13-12"><a href="quantification-1.html#cb13-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><strong>Align and count reads</strong></p>
-<p>Sequence reads are mapped to the human genome (GRCh38/hg38) and UMIs counted to each gene using the inbuilt human (<em>hg38</em>) annotation. The <em>cellCounts</em> function returns a list object to R. It also outputs one BAM file for each sample which includes location-sorted read mapping results. The returned R list object is saved as an R object “counts.RData,” this will then be loaded to perform further downstream analysis.</p>
+<p>Sequence reads are mapped to the human genome (GRCh38/hg38) and UMIs are counted to each gene using the inbuilt human (<em>hg38</em>) annotation. The <em>cellCounts</em> function returns a list object to R. It also outputs one BAM file for each sample which includes location-sorted read mapping results. The returned R list object is saved as an R object “counts.RData”, this will then be loaded to perform further downstream analysis.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="quantification-1.html#cb14-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span></span>
 <span id="cb14-2"><a href="quantification-1.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cellCounts</span>(</span>
 <span id="cb14-3"><a href="quantification-1.html#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">index =</span> <span class="st">&quot;hg38_reference&quot;</span>,</span>
-<span id="cb14-4"><a href="quantification-1.html#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample =</span> sample.sheets,</span>
+<span id="cb14-4"><a href="quantification-1.html#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample =</span> sample.sheet,</span>
 <span id="cb14-5"><a href="quantification-1.html#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">annot.inbuilt =</span> <span class="st">&quot;hg38&quot;</span>,</span>
 <span id="cb14-6"><a href="quantification-1.html#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">input.mode =</span> <span class="st">&quot;FASTQ&quot;</span>,</span>
 <span id="cb14-7"><a href="quantification-1.html#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">nthreads =</span> <span class="dv">20</span></span>
@@ -321,7 +319,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["scRNA-seq tutorial.pdf", "scRNA-seq tutorial.epub"],
+"download": ["scRNAseqtutorial.pdf", "scRNAseqtutorial.epub"],
 "search": {
 "engine": "fuse",
 "options": null

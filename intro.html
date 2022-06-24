@@ -5,26 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Introduction | scRNA-seq data analysis</title>
-  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Introduction | scRNA-seq data analysis" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   <meta name="github-repo" content="chisangad/scRNAseq" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 2 Introduction | scRNA-seq data analysis" />
   
-  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   
 
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +31,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="prerequisites.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -226,8 +224,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Introduction</h1>
+<div id="intro" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Introduction<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Single-cell RNA-seq (scRNA-seq) first published by <span class="citation">(<a href="#ref-tang2009mrna" role="doc-biblioref">Tang et al. 2009</a>)</span> measures the distribution of expression levels in individual cells. This allows for the study of transcriptome changes at the cellular level to provide unprecedented resolution of gene expression changes in complex cellular systems. As in bulk RNA-seq, scRNA-seq involves a range of analyses including quantification, dimension reduction, cell clustering, cell type identification, inference of gene-regulatory networks, differential expression and cell hierarchy reconstruction. This scRNA-seq protocol provides a step-by-step overview of a standard scRNA-seq analysis. The steps can be categorized into 3 groups; quantification, quality control and downstream analysis</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig1"></span>
 <img src="Fig1.png" alt="Overview of the scRNA-seq analysis protocol" width="960" />
@@ -235,8 +233,8 @@ div.csl-indent {
 Figure 2.1: Overview of the scRNA-seq analysis protocol
 </p>
 </div>
-<div id="quantification" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Quantification</h2>
+<div id="quantification" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Quantification<a href="intro.html#quantification" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Converting the raw data into a matrix of counts is the first step in a scRNA-seq analysis. <em>cellCounts</em> a scRNA-seq quantification program within <strong>Rsubread</strong> is used in the quantification step. <a href="https://rdrr.io/bioc/Rsubread/man/cellCounts.html"><strong>cellCounts</strong></a> is a program developed for quantifying single-cell RNA-seq (scRNA-seq) data generated from the <a href="https://www.10xgenomics.com/products/single-cell-gene-expression">10X platform</a>. cellCounts takes as input scRNA-seq reads, maps them to the reference genome and then produces UMI (Unique Molecular Identifier) counts for each gene in each cell. Its read mapping is based on the <strong>align</strong> program <span class="citation">(<a href="#ref-Rsubread2019" role="doc-biblioref">Liao, Smyth, and Shi 2019</a>; <a href="#ref-liao2013subread" role="doc-biblioref">Liao, Smyth, and Shi 2013b</a>)</span> and its UMI counting is based on the <em>featureCounts</em> program <span class="citation">(<a href="#ref-liao2013featurecounts" role="doc-biblioref">Liao, Smyth, and Shi 2013a</a>)</span>. Sample demultiplexing, cell barcode demultiplexing and read deduplication are carried out before generating the UMI counts.</p>
 <p>The <em>cellCounts</em> function returns a R list object which contains the following components:</p>
 <p><strong>counts</strong><br />
@@ -248,11 +246,11 @@ A data.frame object containing sample information and quantification statistics.
 <p><strong>cell.confidence</strong><br />
 A List object indicating if a cell is a high-confidence cell or a rescued cell (low confidence). Each component in the object is a logical vector indicating which cells in a sample are high-confidence cells. cell confidence is included in the output only if umi cutoff is NULL.</p>
 </div>
-<div id="quality-control-and-normalization" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Quality control and Normalization</h2>
+<div id="quality-control-and-normalization" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Quality control and Normalization<a href="intro.html#quality-control-and-normalization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This step largely consists of quality control, normalization, data correction and dimension reduction. For this step, we will use visualization plots and utilize a number of functions within the <strong>Seurat</strong> <span class="citation">(<a href="#ref-hao2021" role="doc-biblioref">Hao et al. 2021</a>)</span> pipeline for scRNA-seq analysis.</p>
-<div id="quality-control" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Quality control</h3>
+<div id="quality-control" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Quality control<a href="intro.html#quality-control" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Cell filtering</strong><br />
 </p>
 <p>Quality control is performed in several ways to remove;</p>
@@ -284,8 +282,8 @@ A List object indicating if a cell is a high-confidence cell or a rescued cell (
 <li>Genes deemed to induce technical bias</li>
 </ul>
 </div>
-<div id="normalisation-and-data-correction" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Normalisation and data correction</h3>
+<div id="normalisation-and-data-correction" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Normalisation and data correction<a href="intro.html#normalisation-and-data-correction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The filtered count matrix is normalized to account for gene expression variability between cells. There are several normalization methods, a number of which have been derived from Bulk RNA-seq and include;</p>
 <ul>
 <li>CPM (Counts Per Million)</li>
@@ -296,8 +294,8 @@ A List object indicating if a cell is a high-confidence cell or a rescued cell (
 </ul>
 <p>The sparsity and high heterogeneity in scRNA-seq adds to the complexity of normalizing scRNA-seq data. Here, we will utilize normalization methods included in the <strong>Seurat</strong> package. We will be using a global-scaling normalization method “LogNormalize” in <strong>Seurat</strong>, this method normalizes the feature expression measurements for each cell by the total expression, multiplies this by a scale factor (10,000 by default), and log-transforms the result. In addition, for Differential Expression analysis, we utilize the the limma-voom pipeline <span class="citation">(<a href="#ref-ritchie2015limma" role="doc-biblioref">Ritchie et al. 2015, law2014voom</a>)</span> and here, we will be using the CPM normalization method.</p>
 </div>
-<div id="dimension-reduction" class="section level3" number="2.2.3">
-<h3><span class="header-section-number">2.2.3</span> Dimension reduction</h3>
+<div id="dimension-reduction" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Dimension reduction<a href="intro.html#dimension-reduction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The resulting count matrix from scRNA-seq is high dimensional in nature. Furthermore, not all the genes included in the matrix are needed for the classification of the cellular expression profiles. As such, it is important that we focus on the Biological signals that are informative. Popular techniques for dimension reduction are;</p>
 <ul>
 <li>PCA (Principal Component Analysis)</li>
@@ -313,13 +311,14 @@ A List object indicating if a cell is a high-confidence cell or a rescued cell (
 <p>In this workshop, t-SNE and UMAP are used to demonstrate how to group cells into clusters.</p>
 </div>
 </div>
-<div id="data-analysis" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Data analysis</h2>
-<p>After the data has been processed, there are several analyses that can be done depending on the research question. In this tutorial, we will look at the standard analysis in scRNA-seq such as Cluster analysis, cell type annotation, and Trajectory inference/pseudo-temporal ordering. We will also perform gene-level analysis including differential expression analysis, pathway and gene set enrichment analysis, and the generation of Gene Regulatory Networks</p>
+<div id="data-analysis" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Data analysis<a href="intro.html#data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After the data has been processed, there are several analyses that can be done depending on the research question. In this tutorial, we will look at the standard analysis in scRNA-seq such as Cluster analysis, cell type annotation, and Trajectory inference/pseudo-temporal ordering. We will also perform gene-level analysis including differential expression analysis, pathway and gene set enrichment analysis, and the generation of Gene Regulatory Networks
+</p>
 
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-hao2021" class="csl-entry">
 Hao, Yuhan, Stephanie Hao, Erica Andersen-Nissen, William M. Mauck III, Shiwei Zheng, Andrew Butler, Maddie J. Lee, et al. 2021. <span>“Integrated Analysis of Multimodal Single-Cell Data.”</span> <em>Cell</em>. <a href="https://doi.org/10.1016/j.cell.2021.04.048">https://doi.org/10.1016/j.cell.2021.04.048</a>.
@@ -391,7 +390,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["scRNA-seq tutorial.pdf", "scRNA-seq tutorial.epub"],
+"download": ["scRNAseqtutorial.pdf", "scRNAseqtutorial.epub"],
 "search": {
 "engine": "fuse",
 "options": null

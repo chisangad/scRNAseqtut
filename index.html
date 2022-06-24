@@ -5,26 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>scRNA-seq data analysis</title>
-  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="scRNA-seq data analysis" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   <meta name="github-repo" content="chisangad/scRNAseq" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="scRNA-seq data analysis" />
   
-  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   
 
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +31,6 @@
   
 
 <link rel="next" href="intro.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -229,11 +227,22 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">scRNA-seq data analysis</h1>
 <p class="author"><em>David Chisanga and Wei Shi</em></p>
-<p class="date"><em>2021-09-15</em></p>
+<p class="date"><em>24 June, 2022</em></p>
 </div>
-<div id="preface" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Preface</h1>
-<p>This tutorial describes the Bioinformatics protocol for analyzing single-cell RNA-seq (scRNA-seq) data on the Bioinformatics server. This guide provides a brief discussion and examples of the steps involved in the analysis of scRNA-seq data. These include processing raw data, quality control, normalization, data correction, dimension reduction, cluster analysis, cell type annotation, trajectory analysis and other downstream analyses.</p>
+<div id="preface" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This tutorial describes the Bioinformatics protocol for analyzing single-cell RNA-seq (scRNA-seq) data using <a href="https://rdrr.io/bioc/Rsubread/man/cellCounts.html"><em>cellCounts</em></a> function in (<strong>Rsubread</strong>) and <strong>Seurat</strong> pipeline. This guide provides a brief discussion and examples of the steps involved in the analysis of scRNA-seq data. These include;</p>
+<ul>
+<li>processing raw data,</li>
+<li>quality control,</li>
+<li>normalization,</li>
+<li>data correction,</li>
+<li>dimension reduction,</li>
+<li>cluster analysis,</li>
+<li>cell type annotation,</li>
+<li>trajectory analysis</li>
+<li>and other downstream analyses.</li>
+</ul>
 
 </div>
             </section>
@@ -284,7 +293,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["scRNA-seq tutorial.pdf", "scRNA-seq tutorial.epub"],
+"download": ["scRNAseqtutorial.pdf", "scRNAseqtutorial.epub"],
 "search": {
 "engine": "fuse",
 "options": null

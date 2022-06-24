@@ -5,26 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Prerequisites | scRNA-seq data analysis</title>
-  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Prerequisites | scRNA-seq data analysis" />
   <meta property="og:type" content="book" />
   
-  
-  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta property="og:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   <meta name="github-repo" content="chisangad/scRNAseq" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 3 Prerequisites | scRNA-seq data analysis" />
   
-  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data." />
+  <meta name="twitter:description" content="This tutorial contains steps for analysing scRNA-seq data using Rsubread cellCounts + Seurat pipeline." />
   
 
 <meta name="author" content="David Chisanga and Wei Shi" />
 
 
-<meta name="date" content="2021-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +31,6 @@
   
 <link rel="prev" href="intro.html"/>
 <link rel="next" href="running-environment.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -226,22 +224,22 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="prerequisites" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Prerequisites</h1>
+<div id="prerequisites" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Prerequisites<a href="prerequisites.html#prerequisites" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Before you get started with the rest of the analysis, it is important that you have the necessary data and software that will be used in this analysis.</p>
-<div id="prereq" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Data</h2>
+<div id="prereq" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Data<a href="prerequisites.html#prereq" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>scRNA-seq data</strong><br />
 </p>
-<p>A subset of the scRNA-seq dataset that was generated in a published study <span class="citation">(<a href="#ref-chen2020multicenter" role="doc-biblioref">Chen et al. 2020</a>)</span> is used as an example dataset in this protocol.The data consists of two well-characterized cellular reference samples (human breast cancer cell line (HCC1395, sample A) and the matched normal B lymphocyte line (HCC1395BL, sample B)) that were captured using the 10X platform. The data is available in the SRA repository under accession code no. <a href="https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA504037">PRJNA504037</a>. However for the convenience of this analysis,FASTQ files of the raw scRNA-seq data were also saved in the ‘Workshop_scRNAseq’ directory on Z drive.</p>
-<p>A text file called “targets.csv,” which includes relevant sample information, can also be found in this directory.</p>
+<p>A subset of the scRNA-seq dataset that was generated in a published study <span class="citation">(<a href="#ref-chen2020multicenter" role="doc-biblioref">Chen et al. 2020</a>)</span> is used as an example dataset in this protocol. The data consists of two well-characterized cellular reference samples (human breast cancer cell line (HCC1395, sample A) and the matched normal B lymphocyte line (HCC1395BL, sample B)) that were captured using the 10X platform. The data is available in the SRA repository under accession code no. <a href="https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA504037">PRJNA504037</a>. However, for the convenience of this analysis, FASTQ files of the raw scRNA-seq data were also saved in the ‘Workshop_scRNAseq’ directory on the Z drive.</p>
+<p>A text file called “targets.csv”, which includes relevant sample information can also be found in this directory.</p>
 <p><strong>Reference genome data</strong><br />
 </p>
 <p>A FASTA-format file including all chromosomal sequences of the GRCh38/hg38 genome was also saved in the ‘Workshop_scRNAseq’ directory on Z drive.</p>
 </div>
-<div id="software" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> SOFTWARE</h2>
-<p>The following software tools should be installed on a UNIX server and on your laptop:</p>
+<div id="software" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> SOFTWARE<a href="prerequisites.html#software" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The following software tools should be installed on the UNIX server and on your laptop:</p>
 <ul>
 <li><a href="https://www.r-project.org">R</a></li>
 <li><a href="http://bioconductor.org/packages/release/bioc/html/Rsubread.html">Rsubread</a></li>
@@ -253,46 +251,45 @@ div.csl-indent {
 <li><a href="https://bioconductor.org/packages/release/bioc/html/SingleR.html">SingleR</a></li>
 <li><a href="https://bioconductor.org/packages/release/bioc/html/monocle.html">monocle</a></li>
 </ul>
-<p>Consult the R Project website for the installation of R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) <span class="citation">(<a href="#ref-R-base" role="doc-biblioref">R Core Team 2021</a>)</span>. Make sure the latest release version of R is downloaded and installed. After R is installed, launch R and type the following commands to install <em>Rsubread</em>, <em>limma</em>, <em>edgeR</em>, <em>org.Hs.eg.db</em>, <em>statmod</em>, <em>Seurat</em>, <em>SingleR</em> and <em>Monocle</em>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-2"><a href="prerequisites.html#cb1-2" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-3"><a href="prerequisites.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
-<span id="cb1-4"><a href="prerequisites.html#cb1-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(</span>
-<span id="cb1-5"><a href="prerequisites.html#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
-<span id="cb1-6"><a href="prerequisites.html#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Rsubread&#39;</span>,</span>
-<span id="cb1-7"><a href="prerequisites.html#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;org.Hs.eg.db&quot;</span>,</span>
-<span id="cb1-8"><a href="prerequisites.html#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;SingleR&quot;</span>,</span>
-<span id="cb1-9"><a href="prerequisites.html#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;BiocGenerics&#39;</span>,</span>
-<span id="cb1-10"><a href="prerequisites.html#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;DelayedArray&#39;</span>,</span>
-<span id="cb1-11"><a href="prerequisites.html#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;DelayedMatrixStats&#39;</span>,</span>
-<span id="cb1-12"><a href="prerequisites.html#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;S4Vectors&#39;</span>,</span>
-<span id="cb1-13"><a href="prerequisites.html#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;SingleCellExperiment&#39;</span>,</span>
-<span id="cb1-14"><a href="prerequisites.html#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;limma&#39;</span>,</span>
-<span id="cb1-15"><a href="prerequisites.html#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;edgeR&#39;</span>,</span>
-<span id="cb1-16"><a href="prerequisites.html#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;SummarizedExperiment&#39;</span>,</span>
-<span id="cb1-17"><a href="prerequisites.html#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;batchelor&#39;</span>,</span>
-<span id="cb1-18"><a href="prerequisites.html#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Matrix.utils&#39;</span>,</span>
-<span id="cb1-19"><a href="prerequisites.html#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;monocle&#39;</span>,</span>
-<span id="cb1-20"><a href="prerequisites.html#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;celldex&#39;</span></span>
-<span id="cb1-21"><a href="prerequisites.html#cb1-21" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-22"><a href="prerequisites.html#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">update =</span> T</span>
-<span id="cb1-23"><a href="prerequisites.html#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-24"><a href="prerequisites.html#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="prerequisites.html#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;statmod&quot;</span>,<span class="at">quietly=</span><span class="cn">TRUE</span>))</span>
-<span id="cb1-26"><a href="prerequisites.html#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;statmod&quot;</span>)</span>
-<span id="cb1-27"><a href="prerequisites.html#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;Seurat&quot;</span>,<span class="at">quietly=</span><span class="cn">TRUE</span>))</span>
-<span id="cb1-28"><a href="prerequisites.html#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;Seurat&quot;</span>)</span></code></pre></div>
+<p>Consult the R Project website for the installation of R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) <span class="citation">(<a href="#ref-R-base" role="doc-biblioref">R Core Team 2022</a>)</span>. Make sure the latest release version of R is downloaded and installed. After R is installed, launch R and type the following commands to install <em>Rsubread</em>, <em>limma</em>, <em>edgeR</em>, <em>org.Hs.eg.db</em>, <em>statmod</em>, <em>Seurat</em>, <em>SingleR</em> and <em>Monocle</em>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-2"><a href="prerequisites.html#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1-3"><a href="prerequisites.html#cb1-3" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(</span>
+<span id="cb1-4"><a href="prerequisites.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb1-5"><a href="prerequisites.html#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Rsubread&#39;</span>,</span>
+<span id="cb1-6"><a href="prerequisites.html#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;org.Hs.eg.db&quot;</span>,</span>
+<span id="cb1-7"><a href="prerequisites.html#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;SingleR&quot;</span>,</span>
+<span id="cb1-8"><a href="prerequisites.html#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;BiocGenerics&#39;</span>,</span>
+<span id="cb1-9"><a href="prerequisites.html#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;DelayedArray&#39;</span>,</span>
+<span id="cb1-10"><a href="prerequisites.html#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;DelayedMatrixStats&#39;</span>,</span>
+<span id="cb1-11"><a href="prerequisites.html#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;S4Vectors&#39;</span>,</span>
+<span id="cb1-12"><a href="prerequisites.html#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;SingleCellExperiment&#39;</span>,</span>
+<span id="cb1-13"><a href="prerequisites.html#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;limma&#39;</span>,</span>
+<span id="cb1-14"><a href="prerequisites.html#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;edgeR&#39;</span>,</span>
+<span id="cb1-15"><a href="prerequisites.html#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;SummarizedExperiment&#39;</span>,</span>
+<span id="cb1-16"><a href="prerequisites.html#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;batchelor&#39;</span>,</span>
+<span id="cb1-17"><a href="prerequisites.html#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Matrix.utils&#39;</span>,</span>
+<span id="cb1-18"><a href="prerequisites.html#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;monocle&#39;</span>,</span>
+<span id="cb1-19"><a href="prerequisites.html#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;celldex&#39;</span></span>
+<span id="cb1-20"><a href="prerequisites.html#cb1-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-21"><a href="prerequisites.html#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">update =</span> T</span>
+<span id="cb1-22"><a href="prerequisites.html#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-23"><a href="prerequisites.html#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="prerequisites.html#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;statmod&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-25"><a href="prerequisites.html#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;statmod&quot;</span>)</span>
+<span id="cb1-26"><a href="prerequisites.html#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;Seurat&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-27"><a href="prerequisites.html#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;Seurat&quot;</span>)</span></code></pre></div>
 <p><strong>Alternatively, you may use <a href="https://rstudio.com/">Rstudio</a> to run this protocol.</strong></p>
 
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-chen2020multicenter" class="csl-entry">
 Chen, Wanqiu, Yongmei Zhao, Xin Chen, Zhaowei Yang, Xiaojiang Xu, Yingtao Bi, Vicky Chen, et al. 2020. <span>“A Multicenter Study Benchmarking Single-Cell RNA Sequencing Technologies Using Reference Samples.”</span> <em>Nature Biotechnology</em>, 1–12.
 </div>
 <div id="ref-R-base" class="csl-entry">
-R Core Team. 2021. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+R Core Team. 2022. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 </div>
             </section>
@@ -343,7 +340,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["scRNA-seq tutorial.pdf", "scRNA-seq tutorial.epub"],
+"download": ["scRNAseqtutorial.pdf", "scRNAseqtutorial.epub"],
 "search": {
 "engine": "fuse",
 "options": null
